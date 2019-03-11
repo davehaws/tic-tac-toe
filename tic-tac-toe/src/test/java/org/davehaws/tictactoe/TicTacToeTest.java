@@ -2,6 +2,8 @@ package org.davehaws.tictactoe;
 
 import static org.junit.Assert.*;
 
+import java.security.InvalidParameterException;
+
 import org.davehaws.tictactoe.TicTacToe.Mark;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -37,5 +39,13 @@ public class TicTacToeTest {
 		game.move(2, 2);
 		assertThat(game.getMark(2, 2), is(Mark.O));
 		
+	}
+	
+	@Test(expected=InvalidParameterException.class)
+	public void when_player_tries_to_move_to_a_cell_with_a_mark_should_throw_exception() {
+		TicTacToe game = new TicTacToe();
+		
+		game.move(1, 1);
+		game.move(1, 1);
 	}
 }
