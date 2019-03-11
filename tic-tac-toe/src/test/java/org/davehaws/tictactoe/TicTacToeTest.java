@@ -56,4 +56,12 @@ public class TicTacToeTest {
 		game.move(0, 1);
 		
 	}
+	
+	@Test(expected=InvalidParameterException.class)
+	public void when_player_tries_a_row_greater_than_3_should_throw_exception() {
+		TicTacToe game = new TicTacToe();
+		
+		game.move(4, 1);
+		
+	}
 }
