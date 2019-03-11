@@ -17,5 +17,14 @@ public class TicTacToeTest {
 			}
 		}
 	}
+	
+	@Test
+	public void first_move_should_be_X() {
+		TicTacToe game = new TicTacToe();
+		
+		game.move(2, 2);
+		assertThat(game.getMark(2, 2), is("X"));
+		
+	}
 
 }

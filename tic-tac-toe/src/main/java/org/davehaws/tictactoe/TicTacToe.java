@@ -1,10 +1,13 @@
 package org.davehaws.tictactoe;
 
 public class TicTacToe {
-
+	private boolean playerMoved = false;
 	public String getMark(int row, int col) {
-		// TODO Auto-generated method stub
-		return "";
+		return playerMoved ? "X" : "";
+	}
+
+	public void move(int row, int col) {
+		playerMoved = true;
 	}
 
 }
