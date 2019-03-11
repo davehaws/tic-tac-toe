@@ -24,7 +24,5 @@ public class TicTacToeTest {
 		
 		game.move(2, 2);
 		assertThat(game.getMark(2, 2), is("X"));
-		
 	}
-
 }
