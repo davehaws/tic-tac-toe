@@ -48,4 +48,12 @@ public class TicTacToeTest {
 		game.move(1, 1);
 		game.move(1, 1);
 	}
+	
+	@Test(expected=InvalidParameterException.class)
+	public void when_player_tries_a_row_of_less_than_1_should_throw_exception() {
+		TicTacToe game = new TicTacToe();
+		
+		game.move(0, 1);
+		
+	}
 }

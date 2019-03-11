@@ -17,6 +17,9 @@ public class TicTacToe {
 	}
 
 	public void move(int row, int col) {
+		if (row < 1) {
+			throw new InvalidParameterException("Row should be at least 1. Tried to move to row " + row);
+		}
 		if (last_row == row && last_col == col) {
 			throw new InvalidParameterException("Location (" + row + ", " + col + ") is already taken.");
 		}
