@@ -20,6 +20,9 @@ public class TicTacToe {
 		if (row < 1 || row > 3) {
 			throw new InvalidParameterException("Row can only be 1, 2, or 3. Tried to use row " + row);
 		}
+		if (col < 1 || col > 3) {
+			throw new InvalidParameterException("Column can only be 1, 2, or 3. Tried to use column " + col);
+		}
 		if (last_row == row && last_col == col) {
 			throw new InvalidParameterException("Location (" + row + ", " + col + ") is already taken.");
 		}

@@ -58,10 +58,26 @@ public class TicTacToeTest {
 	}
 	
 	@Test(expected=InvalidParameterException.class)
+	public void when_player_tries_a_column_of_less_than_1_should_throw_exception() {
+		TicTacToe game = new TicTacToe();
+		
+		game.move(1, 0);
+		
+	}
+	
+	@Test(expected=InvalidParameterException.class)
 	public void when_player_tries_a_row_greater_than_3_should_throw_exception() {
 		TicTacToe game = new TicTacToe();
 		
 		game.move(4, 1);
+		
+	}
+	
+	@Test(expected=InvalidParameterException.class)
+	public void when_player_tries_a_col_greater_than_3_should_throw_exception() {
+		TicTacToe game = new TicTacToe();
+		
+		game.move(1, 4);
 		
 	}
 }
