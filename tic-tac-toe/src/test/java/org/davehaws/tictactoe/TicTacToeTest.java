@@ -70,7 +70,7 @@ public class TicTacToeTest {
 	
 	@Test
 	public void when_game_first_starts_the_game_is_in_progress() {
-		assertThat(game.state(), is(State.IN_PROGRESS));
+		assertThat(game.getGameState(), is(State.IN_PROGRESS));
 	}
 	
 	@Test
@@ -80,6 +80,6 @@ public class TicTacToeTest {
 		game.move(1, 2);
 		game.move(2, 2);
 		game.move(1, 3);
-		assertThat(game.state(), is(State.X_WON));
+		assertThat(game.getGameState(), is(State.X_WON));
 	}
 }

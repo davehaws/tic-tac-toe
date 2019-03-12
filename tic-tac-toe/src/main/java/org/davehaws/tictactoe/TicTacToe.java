@@ -6,14 +6,20 @@ public class TicTacToe {
 	public enum Mark {BLANK, X, O};
 	public enum State {NO_STATE, IN_PROGRESS, X_WON};
 	
-	public State state = State.NO_STATE;
-	private Mark player = Mark.BLANK;
+	public State state;
+	private Mark player;
 	private int last_row = 0;
 	private int last_col = 0;
 	
 	private Mark[][] board;
 	
 	public TicTacToe() {
+		initializeBlankBoard();
+		state = State.NO_STATE;
+		player = Mark.BLANK;
+	}
+
+	private void initializeBlankBoard() {
 		board = new Mark[4][];
 		for (int row = 1; row < board.length; row++) {
 			board[row] = new Mark[4];
@@ -28,22 +34,31 @@ public class TicTacToe {
 	}
 
 	public void move(int row, int col) {
+		validateLocationIsValid(row, col);
+		validateLocationAvailable(row, col);
+		
+		player = (player == Mark.X ? Mark.O : Mark.X);
+		board[row][col] = player;
+	}
+
+	private void validateLocationAvailable(int row, int col) {
+		if (last_row == row && last_col == col) {
+			throw new InvalidParameterException("Location (" + row + ", " + col + ") is already taken.");
+		}
+		last_row = row;
+		last_col = col;
+	}
+
+	private void validateLocationIsValid(int row, int col) {
 		if (row < 1 || row > 3) {
 			throw new InvalidParameterException("Row can only be 1, 2, or 3. Tried to use row " + row);
 		}
 		if (col < 1 || col > 3) {
 			throw new InvalidParameterException("Column can only be 1, 2, or 3. Tried to use column " + col);
 		}
-		if (last_row == row && last_col == col) {
-			throw new InvalidParameterException("Location (" + row + ", " + col + ") is already taken.");
-		}
-		last_row = row;
-		last_col = col;
-		player = (player == Mark.X ? Mark.O : Mark.X);
-		board[row][col] = player;
 	}
 
-	public State state() {
+	public State getGameState() {
 		boolean winnerIsX = true;
 		for (int col = 1; col < 4; col++) {
 			if (board[1][col] != Mark.X) {
