@@ -73,6 +73,11 @@ public class TicTacToeTest {
 		assertThat(game.getGameState(), is(State.IN_PROGRESS));
 	}
 	
+	@Test(expected=InvalidParameterException.class)
+	public void when_checking_for_marks_out_of_range_should_throw_exception() {
+		game.getMark(0, 1);
+	}
+	
 	@Test
 	public void when_top_row_is_all_x_then_x_wins() throws Exception {
 		game.move(1, 1);

@@ -30,6 +30,7 @@ public class TicTacToe {
 	}
 	
 	public Mark getMark(int row, int col) {
+		validateLocationIsValid(row, col);
 		return board[row][col];
 	}
 
