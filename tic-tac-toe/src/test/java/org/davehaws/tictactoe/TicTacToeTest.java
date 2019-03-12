@@ -1,11 +1,12 @@
 package org.davehaws.tictactoe;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.security.InvalidParameterException;
 
 import org.davehaws.tictactoe.TicTacToe.Mark;
+import org.davehaws.tictactoe.TicTacToe.State;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -65,5 +66,10 @@ public class TicTacToeTest {
 	@Test(expected=InvalidParameterException.class)
 	public void when_player_tries_a_col_greater_than_3_should_throw_exception() {
 		game.move(1, 4);
+	}
+	
+	@Test
+	public void when_game_first_starts_the_game_is_in_progress() {
+		assertThat(game.state(), is(State.IN_PROGRESS));
 	}
 }

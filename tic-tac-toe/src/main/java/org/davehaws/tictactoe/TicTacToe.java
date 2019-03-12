@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 
 public class TicTacToe {
 	public enum Mark {BLANK, X, O};
+	public enum State {NO_STATE, IN_PROGRESS};
 	
 	private Mark player = Mark.BLANK;
 	private int last_row = 0;
@@ -29,6 +30,10 @@ public class TicTacToe {
 		last_row = row;
 		last_col = col;
 		player = (player == Mark.O ? Mark.X : Mark.O);
+	}
+
+	public State state() {
+		return State.IN_PROGRESS;
 	}
 
 }
