@@ -1,7 +1,7 @@
 package org.davehaws.tictactoe;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 import java.security.InvalidParameterException;
 
@@ -86,5 +86,15 @@ public class TicTacToeTest {
 		game.move(2, 2);
 		game.move(1, 3);
 		assertThat(game.getGameState(), is(State.X_WON));
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void when_game_is_won_and_another_move_is_made_should_throw_exception() throws Exception {
+		game.move(1, 1);
+		game.move(2, 1);
+		game.move(1, 2);
+		game.move(2, 2);
+		game.move(1, 3);
+		game.move(2, 3);
 	}
 }

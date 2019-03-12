@@ -4,18 +4,16 @@ import java.security.InvalidParameterException;
 
 public class TicTacToe {
 	public enum Mark {BLANK, X, O};
-	public enum State {NO_STATE, IN_PROGRESS, X_WON};
+	public enum State {IN_PROGRESS, X_WON};
 	
 	public State state;
 	private Mark player;
-	private int last_row = 0;
-	private int last_col = 0;
 	
 	private Mark[][] board;
 	
 	public TicTacToe() {
 		initializeBlankBoard();
-		state = State.NO_STATE;
+		state = State.IN_PROGRESS;
 		player = Mark.BLANK;
 	}
 
@@ -35,19 +33,21 @@ public class TicTacToe {
 	}
 
 	public void move(int row, int col) {
+		if(state != State.IN_PROGRESS) {
+			throw new IllegalStateException("Game has finished. Can no longer make any moves.");
+		}
 		validateLocationIsValid(row, col);
 		validateLocationAvailable(row, col);
 		
 		player = (player == Mark.X ? Mark.O : Mark.X);
 		board[row][col] = player;
+		setGameState();
 	}
 
 	private void validateLocationAvailable(int row, int col) {
-		if (last_row == row && last_col == col) {
+		if (board[row][col] != Mark.BLANK) {
 			throw new InvalidParameterException("Location (" + row + ", " + col + ") is already taken.");
 		}
-		last_row = row;
-		last_col = col;
 	}
 
 	private void validateLocationIsValid(int row, int col) {
@@ -60,6 +60,10 @@ public class TicTacToe {
 	}
 
 	public State getGameState() {
+		return state;
+	}
+
+	private void setGameState() {
 		boolean winnerIsX = true;
 		for (int col = 1; col < 4; col++) {
 			if (board[1][col] != Mark.X) {
@@ -67,7 +71,9 @@ public class TicTacToe {
 				break;
 			}
 		}
-		return winnerIsX ? State.X_WON : State.IN_PROGRESS;
+		if (winnerIsX) {
+			state = State.X_WON;
+		}
 	}
 
 }
