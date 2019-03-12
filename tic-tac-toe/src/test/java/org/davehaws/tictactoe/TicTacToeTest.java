@@ -72,4 +72,14 @@ public class TicTacToeTest {
 	public void when_game_first_starts_the_game_is_in_progress() {
 		assertThat(game.state(), is(State.IN_PROGRESS));
 	}
+	
+	@Test
+	public void when_top_row_is_all_x_then_x_wins() throws Exception {
+		game.move(1, 1);
+		game.move(2, 1);
+		game.move(1, 2);
+		game.move(2, 2);
+		game.move(1, 3);
+		assertThat(game.state(), is(State.X_WON));
+	}
 }

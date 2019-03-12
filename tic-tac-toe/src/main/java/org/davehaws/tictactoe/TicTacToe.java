@@ -4,17 +4,27 @@ import java.security.InvalidParameterException;
 
 public class TicTacToe {
 	public enum Mark {BLANK, X, O};
-	public enum State {NO_STATE, IN_PROGRESS};
+	public enum State {NO_STATE, IN_PROGRESS, X_WON};
 	
+	public State state = State.NO_STATE;
 	private Mark player = Mark.BLANK;
 	private int last_row = 0;
 	private int last_col = 0;
 	
-	public Mark getMark(int row, int col) {
-		if (player == Mark.BLANK) {
-			return Mark.BLANK;
+	private Mark[][] board;
+	
+	public TicTacToe() {
+		board = new Mark[4][];
+		for (int row = 1; row < board.length; row++) {
+			board[row] = new Mark[4];
+			for (int col = 0; col < board[row].length; col++) {
+				board[row][col] = Mark.BLANK;
+			}
 		}
-		return (player == Mark.X ? Mark.O : Mark.X);
+	}
+	
+	public Mark getMark(int row, int col) {
+		return board[row][col];
 	}
 
 	public void move(int row, int col) {
@@ -29,11 +39,19 @@ public class TicTacToe {
 		}
 		last_row = row;
 		last_col = col;
-		player = (player == Mark.O ? Mark.X : Mark.O);
+		player = (player == Mark.X ? Mark.O : Mark.X);
+		board[row][col] = player;
 	}
 
 	public State state() {
-		return State.IN_PROGRESS;
+		boolean winnerIsX = true;
+		for (int col = 1; col < 4; col++) {
+			if (board[1][col] != Mark.X) {
+				winnerIsX = false;
+				break;
+			}
+		}
+		return winnerIsX ? State.X_WON : State.IN_PROGRESS;
 	}
 
 }
