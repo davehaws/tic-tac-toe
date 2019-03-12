@@ -88,6 +88,27 @@ public class TicTacToeTest {
 		assertThat(game.getGameState(), is(State.X_WON));
 	}
 	
+	@Test
+	public void when_middle_row_is_all_x_then_x_wins() throws Exception {
+		game.move(2, 1);
+		game.move(1, 1);
+		game.move(2, 2);
+		game.move(3, 2);
+		game.move(2, 3);
+		assertThat(game.getGameState(), is(State.X_WON));
+	}
+	
+	@Test
+	public void when_top_row_is_all_o_then_o_wins() throws Exception {
+		game.move(2, 1);
+		game.move(1, 1);
+		game.move(2, 2);
+		game.move(1, 2);
+		game.move(3, 3);
+		game.move(1, 3);
+		assertThat(game.getGameState(), is(State.O_WON));
+	}
+	
 	@Test(expected=IllegalStateException.class)
 	public void when_game_is_won_and_another_move_is_made_should_throw_exception() throws Exception {
 		game.move(1, 1);

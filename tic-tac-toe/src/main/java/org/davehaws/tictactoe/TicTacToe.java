@@ -4,7 +4,7 @@ import java.security.InvalidParameterException;
 
 public class TicTacToe {
 	public enum Mark {BLANK, X, O};
-	public enum State {IN_PROGRESS, X_WON};
+	public enum State {IN_PROGRESS, X_WON, O_WON};
 	
 	public State state;
 	private Mark player;
@@ -64,15 +64,25 @@ public class TicTacToe {
 	}
 
 	private void setGameState() {
-		boolean winnerIsX = true;
+		boolean foundWinner = true;
 		for (int col = 1; col < 4; col++) {
-			if (board[1][col] != Mark.X) {
-				winnerIsX = false;
+			if (board[1][col] != player) {
+				foundWinner = false;
 				break;
 			}
 		}
-		if (winnerIsX) {
-			state = State.X_WON;
+		if (!foundWinner) {
+			foundWinner = true;
+			for (int col = 1; col < 4; col++) {
+				if (board[2][col] != player) {
+					foundWinner = false;
+					break;
+				}
+			}
+		}
+
+		if (foundWinner) {
+			state = (player == Mark.X) ? State.X_WON : State.O_WON;
 		}
 	}
 
