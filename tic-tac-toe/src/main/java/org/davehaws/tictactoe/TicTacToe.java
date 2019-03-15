@@ -1,6 +1,7 @@
 package org.davehaws.tictactoe;
 
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 
 public class TicTacToe {
 	public enum Mark {BLANK, X, O};
@@ -21,9 +22,7 @@ public class TicTacToe {
 		board = new Mark[4][];
 		for (int row = 1; row < board.length; row++) {
 			board[row] = new Mark[4];
-			for (int col = 0; col < board[row].length; col++) {
-				board[row][col] = Mark.BLANK;
-			}
+			Arrays.fill(board[row], Mark.BLANK);
 		}
 	}
 	
