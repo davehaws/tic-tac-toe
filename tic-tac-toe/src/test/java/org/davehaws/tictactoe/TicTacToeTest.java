@@ -48,6 +48,40 @@ public class TicTacToeTest {
 	}
 	
 	@Test
+	public void when_left_col_is_all_o_then_o_wins() throws Exception {
+		makeMoves(new int[][] {
+			{2,2}, {1,1}, 
+			{1,2}, {2,1}, 
+			{1,3}, {3,1}
+		});
+		
+		assertThat(game.getGameState(), is(State.O_WON));
+	}
+	
+	@Test
+	public void when_middle_col_is_all_o_then_o_wins() throws Exception {
+		makeMoves(new int[][] {
+			{2,1}, {1,2}, 
+			{1,1}, {2,2}, 
+			{1,3}, {3,2}
+		});
+		
+		assertThat(game.getGameState(), is(State.O_WON));
+	}
+	
+	@Test
+	public void when_right_col_is_all_o_then_o_wins() throws Exception {
+		makeMoves(new int[][] {
+			{2,2}, {1,3}, 
+			{1,2}, {2,3}, 
+			{1,1}, {3,3}
+		});
+		
+		assertThat(game.getGameState(), is(State.O_WON));
+	}
+	
+	
+	@Test
 	public void when_top_row_is_all_x_then_x_wins() throws Exception {
 		makeMoves(new int[][] {
 			{1,1}, {2,1}, 
