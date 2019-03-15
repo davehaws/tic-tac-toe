@@ -63,26 +63,24 @@ public class TicTacToe {
 	}
 
 	private void setGameState() {
-		boolean foundWinner = true;
-		for (int col = 1; col < 4; col++) {
-			if (board[1][col] != player) {
-				foundWinner = false;
-				break;
-			}
-		}
-		if (!foundWinner) {
-			foundWinner = true;
-			for (int col = 1; col < 4; col++) {
-				if (board[2][col] != player) {
-					foundWinner = false;
-					break;
-				}
-			}
-		}
-
-		if (foundWinner) {
+		if (boardHasWinner()) {
 			state = (player == Mark.X) ? State.X_WON : State.O_WON;
 		}
+	}
+
+	private boolean boardHasWinner() {
+		if (rowHasWinner(1)) return true;
+		if (rowHasWinner(2)) return true;
+		return false;
+	}
+
+	private boolean rowHasWinner(int row) {
+		for (int col = 1; col < 4; col++) {
+			if (board[row][col] != player) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
