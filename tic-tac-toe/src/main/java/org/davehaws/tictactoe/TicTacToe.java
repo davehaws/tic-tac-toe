@@ -69,12 +69,14 @@ public class TicTacToe {
 	}
 
 	private boolean boardHasWinner() {
-		if (rowHasWinner(1)) return true;
-		if (rowHasWinner(2)) return true;
+		if (winnerInRow(1)) return true;
+		if (winnerInRow(2)) return true;
+		if (winnerInRow(3)) return true;
+		
 		return false;
 	}
 
-	private boolean rowHasWinner(int row) {
+	private boolean winnerInRow(int row) {
 		for (int col = 1; col < 4; col++) {
 			if (board[row][col] != player) {
 				return false;

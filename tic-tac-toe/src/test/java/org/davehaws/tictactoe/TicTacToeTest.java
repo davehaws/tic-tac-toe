@@ -70,6 +70,17 @@ public class TicTacToeTest {
 	}
 	
 	@Test
+	public void when_bottom_row_is_all_x_then_x_wins() throws Exception {
+		game.move(3, 1);
+		game.move(1, 1);
+		game.move(3, 2);
+		game.move(2, 2);
+		game.move(3, 3);
+		
+		assertThat(game.getGameState(), is(State.X_WON));
+	}
+	
+	@Test
 	public void when_top_row_is_all_o_then_o_wins() throws Exception {
 		game.move(2, 1);
 		game.move(1, 1);
