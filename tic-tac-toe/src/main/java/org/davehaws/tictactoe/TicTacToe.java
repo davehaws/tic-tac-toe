@@ -28,22 +28,36 @@ public class TicTacToe {
 	
 	public Mark getMark(int row, int col) {
 		validateLocationIsValid(row, col);
+		
 		return board[row][col];
 	}
 
 	public void move(int row, int col) {
-		if(state != State.IN_PROGRESS) {
-			throw new IllegalStateException("Game has finished. Can no longer make any moves.");
-		}
+		validateGameIsInProgress();
 		validateLocationIsValid(row, col);
-		validateLocationAvailable(row, col);
+		validateLocationIsAvailable(row, col);
 		
-		player = (player == Mark.X ? Mark.O : Mark.X);
-		board[row][col] = player;
+		togglePlayer();
+		markBoard(row, col);
+		
 		setGameState();
 	}
 
-	private void validateLocationAvailable(int row, int col) {
+	private void markBoard(int row, int col) {
+		board[row][col] = player;
+	}
+
+	private void togglePlayer() {
+		player = (player == Mark.X ? Mark.O : Mark.X);
+	}
+
+	private void validateGameIsInProgress() {
+		if(state != State.IN_PROGRESS) {
+			throw new IllegalStateException("Game has finished. Can no longer make any moves.");
+		}
+	}
+
+	private void validateLocationIsAvailable(int row, int col) {
 		if (board[row][col] != Mark.BLANK) {
 			throw new InvalidParameterException("Location (" + row + ", " + col + ") is already taken.");
 		}
