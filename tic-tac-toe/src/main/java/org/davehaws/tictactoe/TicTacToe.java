@@ -19,6 +19,8 @@ public class TicTacToe {
 	}
 
 	private void initializeBlankBoard() {
+		// NOTE: Allocating more than needed because didn't
+		// want to have to deal with zero-base to one-based conversion
 		board = new Mark[4][];
 		for (int row = 1; row < board.length; row++) {
 			board[row] = new Mark[4];
