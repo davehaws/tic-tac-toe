@@ -115,6 +115,28 @@ public class TicTacToeTest {
 	}
 	
 	@Test
+	public void when_diagonal_from_topleft_to_bottomright_is_all_x_then_x_wins() throws Exception {
+		makeMoves(new int[][] {
+			{1,1}, {1,2}, 
+			{2,2}, {2,3}, 
+			{3,3}
+		});
+		
+		assertThat(game.getGameState(), is(State.X_WON));
+	}
+	
+	@Test
+	public void when_diagonal_from_bottomleft_to_topright_is_all_o_then_o_wins() throws Exception {
+		makeMoves(new int[][] {
+			{1,1}, {1,3}, 
+			{2,3}, {2,2}, 
+			{3,3}, {3,1}
+		});
+		
+		assertThat(game.getGameState(), is(State.O_WON));
+	}
+	
+	@Test
 	public void when_top_row_is_all_o_then_o_wins() throws Exception {
 		makeMoves(new int[][] {
 			{2,1}, {1,1}, 
