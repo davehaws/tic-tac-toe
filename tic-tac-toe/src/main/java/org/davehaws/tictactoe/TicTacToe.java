@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class TicTacToe {
 	public enum Mark {BLANK, X, O};
-	public enum State {IN_PROGRESS, X_WON, O_WON};
+	public enum State {IN_PROGRESS, X_WON, O_WON, CATS_GAME};
 	
 	public State state;
 	private Mark player;
@@ -81,7 +81,27 @@ public class TicTacToe {
 	private void setGameState() {
 		if (boardHasWinner()) {
 			state = (player == Mark.X) ? State.X_WON : State.O_WON;
+		} else if (allSpacesTaken()) {
+			state = State.CATS_GAME;
 		}
+	}
+
+	private boolean allSpacesTaken() {
+		for (int row = 1; row < board.length; row++) {
+			if (rowContainsBlanks(board[row])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean rowContainsBlanks(Mark[] row) {
+		for (int col = 1; col < row.length; col++) {
+			if (row[col] == Mark.BLANK) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean boardHasWinner() {

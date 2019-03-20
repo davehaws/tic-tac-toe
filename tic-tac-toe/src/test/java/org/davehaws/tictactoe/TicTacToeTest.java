@@ -147,6 +147,19 @@ public class TicTacToeTest {
 		assertThat(game.getGameState(), is(State.O_WON));
 	}
 	
+	@Test
+	public void when_all_locations_are_marked_and_no_winner_then_it_is_a_cats_game() throws Exception {
+		makeMoves(new int[][] {
+			{2,2}, {1,1}, 
+			{1,2}, {3,2}, 
+			{3,1}, {1,3},
+			{2,3}, {2,1},
+			{3,3}
+		});
+		
+		assertThat(game.getGameState(), is(State.CATS_GAME));
+	}
+	
 	@Test(expected=IllegalStateException.class)
 	public void when_game_is_won_and_another_move_is_made_should_throw_exception() throws Exception {
 		makeMoves(new int[][] {
