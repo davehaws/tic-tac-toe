@@ -19,17 +19,17 @@ public class TicTacToe {
 	}
 
 	private void initializeBlankBoard() {
-		// NOTE: Allocating more than needed because didn't
-		// want to have to deal with zero-base to one-based conversion
-		board = new Mark[4][];
-		for (int row = 1; row < board.length; row++) {
-			board[row] = new Mark[4];
+		board = new Mark[3][];
+		for (int row = 0; row < board.length; row++) {
+			board[row] = new Mark[3];
 			Arrays.fill(board[row], Mark.BLANK);
 		}
 	}
 	
 	public Mark getMark(int row, int col) {
 		validateLocationIsValid(row, col);
+		row = convertToZeroBased(row);
+		col = convertToZeroBased(col);
 		
 		return board[row][col];
 	}
@@ -38,11 +38,17 @@ public class TicTacToe {
 		validateGameIsInProgress();
 		validateLocationIsValid(row, col);
 		validateLocationIsAvailable(row, col);
-		
+
+		row = convertToZeroBased(row);
+		col = convertToZeroBased(col);
 		togglePlayer();
 		markBoard(row, col);
 		
 		setGameState();
+	}
+
+	private int convertToZeroBased(int value) {
+		return value - 1;
 	}
 
 	private void markBoard(int row, int col) {
@@ -60,7 +66,7 @@ public class TicTacToe {
 	}
 
 	private void validateLocationIsAvailable(int row, int col) {
-		if (board[row][col] != Mark.BLANK) {
+		if (board[row-1][col-1] != Mark.BLANK) {
 			throw new InvalidParameterException("Location (" + row + ", " + col + ") is already taken.");
 		}
 	}
@@ -87,7 +93,7 @@ public class TicTacToe {
 	}
 
 	private boolean allSpacesTaken() {
-		for (int row = 1; row < board.length; row++) {
+		for (int row = 0; row < board.length; row++) {
 			if (rowContainsBlanks(board[row])) {
 				return false;
 			}
@@ -96,7 +102,7 @@ public class TicTacToe {
 	}
 
 	private boolean rowContainsBlanks(Mark[] row) {
-		for (int col = 1; col < row.length; col++) {
+		for (int col = 0; col < row.length; col++) {
 			if (row[col] == Mark.BLANK) {
 				return true;
 			}
@@ -109,21 +115,21 @@ public class TicTacToe {
 	}
 
 	private boolean diagonalWinnerExists() {
-		if (player == board[1][1] && player == board[2][2] && player == board[3][3]) return true;
-		if (player == board[1][3] && player == board[2][2] && player == board[3][1]) return true;
+		if (player == board[0][0] && player == board[1][1] && player == board[2][2]) return true;
+		if (player == board[0][2] && player == board[1][1] && player == board[2][0]) return true;
 		return false;
 	}
 
 	private boolean columnWinnerExists() {
-		return winnerInCol(1) || winnerInCol(2) || winnerInCol(3);
+		return winnerInCol(0) || winnerInCol(1) || winnerInCol(2);
 	}
 
 	private boolean rowWinnerExists() {
-		return winnerInRow(1) || winnerInRow(2) || winnerInRow(3);
+		return winnerInRow(0) || winnerInRow(1) || winnerInRow(2);
 	}
 
 	private boolean winnerInCol(int col) {
-		for (int row = 1; row < 4; row++) {
+		for (int row = 0; row < 3; row++) {
 			if (board[row][col] != player) {
 				return false;
 			}
@@ -132,7 +138,7 @@ public class TicTacToe {
 	}
 
 	private boolean winnerInRow(int row) {
-		for (int col = 1; col < 4; col++) {
+		for (int col = 0; col < 3; col++) {
 			if (board[row][col] != player) {
 				return false;
 			}
