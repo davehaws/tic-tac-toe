@@ -1,149 +1,161 @@
 package org.davehaws.tictactoe;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.security.InvalidParameterException;
 
 import org.davehaws.tictactoe.TicTacToe.Mark;
 import org.davehaws.tictactoe.TicTacToe.State;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class TicTacToeTest {
 	private TicTacToe game = new TicTacToe();
 
-	@Test
-	public void new_game_should_have_blank_board() {
-		for (int row = 1; row < 4; row++) {
-			for (int col = 1; col < 4; col++) {
-				assertThat(game.getMark(row, col), is(Mark.BLANK));
+	@Nested
+	class When_the_game_begins {
+	
+		@Test
+		public void the_board_should_be_blank() {
+			for (int row = 1; row < 4; row++) {
+				for (int col = 1; col < 4; col++) {
+					assertThat(game.getMark(row, col), is(Mark.BLANK));
+				}
 			}
 		}
-	}
-	
-	@Test
-	public void first_move_should_be_X() {
-		game.move(2, 2);
+		
+		@Test
+		public void the_game_should_be_in_progress() {
+			assertThat(game.getGameState(), is(State.IN_PROGRESS));
+		}
 
-		assertThat(game.getMark(2, 2), is(Mark.X));
-	}
-	
-	@Test
-	public void second_move_should_be_O() {
-		game.move(1, 1);
-		game.move(2, 2);
+		@Test
+		public void the_first_move_should_be_X() {
+			game.move(2, 2);
 
-		assertThat(game.getMark(2, 2), is(Mark.O));
-	}
-	
-	@Test
-	public void when_game_first_starts_the_game_is_in_progress() {
-		assertThat(game.getGameState(), is(State.IN_PROGRESS));
-	}
-	
-	@Test
-	public void when_left_col_is_all_o_then_o_wins() throws Exception {
-		makeMoves(new int[][] {
-			{2,2}, {1,1}, 
-			{1,2}, {2,1}, 
-			{1,3}, {3,1}
-		});
+			assertThat(game.getMark(2, 2), is(Mark.X));
+		}
 		
-		assertThat(game.getGameState(), is(State.O_WON));
-	}
-	
-	@Test
-	public void when_middle_col_is_all_o_then_o_wins() throws Exception {
-		makeMoves(new int[][] {
-			{2,1}, {1,2}, 
-			{1,1}, {2,2}, 
-			{1,3}, {3,2}
-		});
+		@Test
+		public void the_second_move_should_be_O() {
+			game.move(1, 1);
+			game.move(2, 2);
+
+			assertThat(game.getMark(2, 2), is(Mark.O));
+		}
 		
-		assertThat(game.getGameState(), is(State.O_WON));
 	}
-	
-	@Test
-	public void when_right_col_is_all_o_then_o_wins() throws Exception {
-		makeMoves(new int[][] {
-			{2,2}, {1,3}, 
-			{1,2}, {2,3}, 
-			{1,1}, {3,3}
-		});
+
+	@Nested
+	class A_win_is_declared_when {
+		@Test
+		public void the_left_column_is_all_Os() throws Exception {
+			makeMoves(new int[][] {
+				{2,2}, {1,1}, 
+				{1,2}, {2,1}, 
+				{1,3}, {3,1}
+			});
+			
+			assertThat(game.getGameState(), is(State.O_WON));
+		}
 		
-		assertThat(game.getGameState(), is(State.O_WON));
-	}
-	
-	
-	@Test
-	public void when_top_row_is_all_x_then_x_wins() throws Exception {
-		makeMoves(new int[][] {
-			{1,1}, {2,1}, 
-			{1,2}, {2,2}, 
-			{1,3}
-		});
+		@Test
+		public void the_middle_column_is_all_Os() throws Exception {
+			makeMoves(new int[][] {
+				{2,1}, {1,2}, 
+				{1,1}, {2,2}, 
+				{1,3}, {3,2}
+			});
+			
+			assertThat(game.getGameState(), is(State.O_WON));
+		}
 		
-		assertThat(game.getGameState(), is(State.X_WON));
-	}
-	
-	@Test
-	public void when_middle_row_is_all_x_then_x_wins() throws Exception {
-		makeMoves(new int[][] {
-			{2,1}, {1,1}, 
-			{2,2}, {3,2}, 
-			{2,3}
-		});
+		@Test
+		public void the_right_column_is_all_Os() throws Exception {
+			makeMoves(new int[][] {
+				{2,2}, {1,3}, 
+				{1,2}, {2,3}, 
+				{1,1}, {3,3}
+			});
+			
+			assertThat(game.getGameState(), is(State.O_WON));
+		}
 		
-		assertThat(game.getGameState(), is(State.X_WON));
-	}
-	
-	@Test
-	public void when_bottom_row_is_all_x_then_x_wins() throws Exception {
-		makeMoves(new int[][] {
-			{3,1}, {1,1}, 
-			{3,2}, {2,2}, 
-			{3,3}
-		});
+		@Test
+		public void the_top_row_is_all_Xs() throws Exception {
+			makeMoves(new int[][] {
+				{1,1}, {2,1}, 
+				{1,2}, {2,2}, 
+				{1,3}
+			});
+			
+			assertThat(game.getGameState(), is(State.X_WON));
+		}
 		
-		assertThat(game.getGameState(), is(State.X_WON));
-	}
-	
-	@Test
-	public void when_diagonal_from_topleft_to_bottomright_is_all_x_then_x_wins() throws Exception {
-		makeMoves(new int[][] {
-			{1,1}, {1,2}, 
-			{2,2}, {2,3}, 
-			{3,3}
-		});
+		@Test
+		public void the_middle_row_is_all_Xs() throws Exception {
+			makeMoves(new int[][] {
+				{2,1}, {1,1}, 
+				{2,2}, {3,2}, 
+				{2,3}
+			});
+			
+			assertThat(game.getGameState(), is(State.X_WON));
+		}
 		
-		assertThat(game.getGameState(), is(State.X_WON));
-	}
-	
-	@Test
-	public void when_diagonal_from_bottomleft_to_topright_is_all_o_then_o_wins() throws Exception {
-		makeMoves(new int[][] {
-			{1,1}, {1,3}, 
-			{2,3}, {2,2}, 
-			{3,3}, {3,1}
-		});
+		@Test
+		public void the_bottom_row_is_all_Xs() throws Exception {
+			makeMoves(new int[][] {
+				{3,1}, {1,1}, 
+				{3,2}, {2,2}, 
+				{3,3}
+			});
+			
+			assertThat(game.getGameState(), is(State.X_WON));
+		}
 		
-		assertThat(game.getGameState(), is(State.O_WON));
-	}
-	
-	@Test
-	public void when_top_row_is_all_o_then_o_wins() throws Exception {
-		makeMoves(new int[][] {
-			{2,1}, {1,1}, 
-			{2,2}, {1,2}, 
-			{3,3}, {1,3}
-		});
+		@Test
+		public void the_diagonal_from_topleft_to_bottomright_is_all_Xs() throws Exception {
+			makeMoves(new int[][] {
+				{1,1}, {1,2}, 
+				{2,2}, {2,3}, 
+				{3,3}
+			});
+			
+			assertThat(game.getGameState(), is(State.X_WON));
+		}
 		
-		assertThat(game.getGameState(), is(State.O_WON));
+		@Test
+		public void the_diagonal_from_bottomleft_to_topright_is_all_Os() throws Exception {
+			makeMoves(new int[][] {
+				{1,1}, {1,3}, 
+				{2,3}, {2,2}, 
+				{3,3}, {3,1}
+			});
+			
+			assertThat(game.getGameState(), is(State.O_WON));
+		}
+		
+		@Test
+		public void the_top_row_is_all_Os() throws Exception {
+			makeMoves(new int[][] {
+				{2,1}, {1,1}, 
+				{2,2}, {1,2}, 
+				{3,3}, {1,3}
+			});
+			
+			assertThat(game.getGameState(), is(State.O_WON));
+		}
+		
 	}
 	
 	@Test
-	public void when_all_locations_are_marked_and_no_winner_then_it_is_a_cats_game() throws Exception {
+	public void A_game_is_declared_CATS_when_all_locations_are_marked_and_no_winner_exists() {
 		makeMoves(new int[][] {
 			{2,2}, {1,1}, 
 			{1,2}, {3,2}, 
@@ -155,46 +167,65 @@ public class TicTacToeTest {
 		assertThat(game.getGameState(), is(State.CATS_GAME));
 	}
 	
-	@Test(expected=IllegalStateException.class)
-	public void when_game_is_won_and_another_move_is_made_should_throw_exception() throws Exception {
-		makeMoves(new int[][] {
-			{1,1}, {2,1}, 
-			{1,2}, {2,2}, 
-			{1,3}
-		});
+	@Nested
+	class An_error_is_thrown_when {
+		@Test
+		public void the_game_is_over_and_another_move_is_made() {
+			makeMoves(new int[][] {
+				{1,1}, {2,1}, 
+				{1,2}, {2,2}, 
+				{1,3}
+			});
+			
+			assertThrows(IllegalStateException.class, ()->{
+				game.move(2, 3);
+			});
+		}
 		
-		game.move(2, 3);
-	}
-	
-	@Test(expected=InvalidParameterException.class)
-	public void when_player_tries_to_move_to_a_cell_with_a_mark_should_throw_exception() {
-		game.move(1, 1);
-		game.move(1, 1);
-	}
-	
-	@Test(expected=InvalidParameterException.class)
-	public void when_player_tries_a_row_of_less_than_1_should_throw_exception() {
-		game.move(0, 1);
-	}
-	
-	@Test(expected=InvalidParameterException.class)
-	public void when_player_tries_a_column_of_less_than_1_should_throw_exception() {
-		game.move(1, 0);
-	}
-	
-	@Test(expected=InvalidParameterException.class)
-	public void when_player_tries_a_row_greater_than_3_should_throw_exception() {
-		game.move(4, 1);
-	}
-	
-	@Test(expected=InvalidParameterException.class)
-	public void when_player_tries_a_col_greater_than_3_should_throw_exception() {
-		game.move(1, 4);
-	}
-	
-	@Test(expected=InvalidParameterException.class)
-	public void when_checking_for_marks_out_of_range_should_throw_exception() {
-		game.getMark(0, 1);
+		@Test
+		public void a_player_tries_to_move_to_a_cell_that_is_already_marked() {
+			game.move(1, 1);
+			
+			assertThrows(InvalidParameterException.class, ()->{
+				game.move(1, 1);
+			});
+			
+		}
+		
+		@Test
+		public void a_player_tries_to_mark_a_row_of_less_than_1() {
+			assertThrows(InvalidParameterException.class, ()->{
+				game.move(0, 1);
+			});
+		}
+		
+		@Test
+		public void a_player_tries_to_mark_a_column_of_less_than_1() {
+			assertThrows(InvalidParameterException.class, ()->{
+				game.move(1, 0);
+			});
+		}
+		
+		@Test
+		public void a_player_tries_to_mark_a_row_greater_than_3() {
+			assertThrows(InvalidParameterException.class, ()->{
+				game.move(4, 1);
+			});
+		}
+		
+		@Test
+		public void a_player_tries_to_mark_a_col_greater_than_3() {
+			assertThrows(InvalidParameterException.class, ()->{
+				game.move(1, 4);
+			});
+		}
+		
+		@Test
+		public void checking_for_marks_out_of_range() {
+			assertThrows(InvalidParameterException.class, ()->{
+				game.getMark(0, 1);
+			});
+		}
 	}
 
 	private void makeMoves(int[][] moves) {
