@@ -11,12 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TicTacToeTest {
-	private TicTacToe game;
-
-	@Before
-	public void testSetup() {
-		game = new TicTacToe();
-	}
+	private TicTacToe game = new TicTacToe();
 
 	@Test
 	public void new_game_should_have_blank_board() {

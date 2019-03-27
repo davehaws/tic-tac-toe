@@ -20,18 +20,16 @@ public class TicTacToe {
 
 	private void initializeBlankBoard() {
 		board = new Mark[3][];
-		for (int row = 0; row < board.length; row++) {
-			board[row] = new Mark[3];
-			Arrays.fill(board[row], Mark.BLANK);
+		for (int x = 0; x < board.length; x++) {
+			board[x] = new Mark[3];
+			Arrays.fill(board[x], Mark.BLANK);
 		}
 	}
 	
 	public Mark getMark(int row, int col) {
 		validateLocationIsValid(row, col);
-		row = convertToZeroBased(row);
-		col = convertToZeroBased(col);
 		
-		return board[row][col];
+		return board[convertToZeroBased(row)][convertToZeroBased(col)];
 	}
 
 	public void move(int row, int col) {
@@ -39,10 +37,8 @@ public class TicTacToe {
 		validateLocationIsValid(row, col);
 		validateLocationIsAvailable(row, col);
 
-		row = convertToZeroBased(row);
-		col = convertToZeroBased(col);
 		togglePlayer();
-		markBoard(row, col);
+		markBoard(convertToZeroBased(row), convertToZeroBased(col));
 		
 		setGameState();
 	}
@@ -51,8 +47,8 @@ public class TicTacToe {
 		return value - 1;
 	}
 
-	private void markBoard(int row, int col) {
-		board[row][col] = player;
+	private void markBoard(int x, int y) {
+		board[x][y] = player;
 	}
 
 	private void togglePlayer() {
@@ -66,7 +62,7 @@ public class TicTacToe {
 	}
 
 	private void validateLocationIsAvailable(int row, int col) {
-		if (board[row-1][col-1] != Mark.BLANK) {
+		if (board[convertToZeroBased(row)][convertToZeroBased(col)] != Mark.BLANK) {
 			throw new InvalidParameterException("Location (" + row + ", " + col + ") is already taken.");
 		}
 	}
@@ -93,8 +89,8 @@ public class TicTacToe {
 	}
 
 	private boolean allSpacesTaken() {
-		for (int row = 0; row < board.length; row++) {
-			if (rowContainsBlanks(board[row])) {
+		for (int x = 0; x < board.length; x++) {
+			if (rowContainsBlanks(board[x])) {
 				return false;
 			}
 		}
@@ -102,8 +98,8 @@ public class TicTacToe {
 	}
 
 	private boolean rowContainsBlanks(Mark[] row) {
-		for (int col = 0; col < row.length; col++) {
-			if (row[col] == Mark.BLANK) {
+		for (int y = 0; y < row.length; y++) {
+			if (row[y] == Mark.BLANK) {
 				return true;
 			}
 		}
@@ -128,18 +124,18 @@ public class TicTacToe {
 		return winnerInRow(0) || winnerInRow(1) || winnerInRow(2);
 	}
 
-	private boolean winnerInCol(int col) {
-		for (int row = 0; row < 3; row++) {
-			if (board[row][col] != player) {
+	private boolean winnerInCol(int y) {
+		for (int x = 0; x < 3; x++) {
+			if (board[x][y] != player) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private boolean winnerInRow(int row) {
-		for (int col = 0; col < 3; col++) {
-			if (board[row][col] != player) {
+	private boolean winnerInRow(int x) {
+		for (int y = 0; y < 3; y++) {
+			if (board[x][y] != player) {
 				return false;
 			}
 		}
