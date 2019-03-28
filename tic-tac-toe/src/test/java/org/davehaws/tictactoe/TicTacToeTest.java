@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.security.InvalidParameterException;
+import java.util.stream.IntStream;
 
 import org.davehaws.tictactoe.TicTacToe.Mark;
 import org.davehaws.tictactoe.TicTacToe.State;
@@ -19,14 +20,16 @@ public class TicTacToeTest {
 
 	@Nested
 	class When_the_game_begins {
-	
+
 		@Test
 		public void the_board_should_be_blank() {
-			for (int row = 1; row < 4; row++) {
-				for (int col = 1; col < 4; col++) {
-					assertThat(game.getMark(row, col), is(Mark.BLANK));
-				}
-			}
+			IntStream.range(1, 4).forEach(row -> {assertRowIsBlank(row);});
+		}
+
+		private void assertRowIsBlank(int row) {
+			IntStream.range(1, 4).forEach(col -> {
+				assertThat(game.getMark(row, col), is(Mark.BLANK));
+			});
 		}
 		
 		@Test

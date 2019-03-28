@@ -2,6 +2,8 @@ package org.davehaws.tictactoe;
 
 import java.security.InvalidParameterException;
 import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class TicTacToe {
 	public enum Mark {BLANK, X, O};
@@ -20,10 +22,13 @@ public class TicTacToe {
 
 	private void initializeBlankBoard() {
 		board = new Mark[3][];
-		for (int x = 0; x < board.length; x++) {
-			board[x] = new Mark[3];
-			Arrays.fill(board[x], Mark.BLANK);
-		}
+		IntStream.range(0, 3).forEach(row -> {
+			board[row] = new Mark[3];
+			Arrays.fill(board[row], Mark.BLANK);
+		});
+//		for (int x = 0; x < board.length; x++) {
+//			board[x] = new Mark[3];
+//		}
 	}
 	
 	public Mark getMark(int row, int col) {
