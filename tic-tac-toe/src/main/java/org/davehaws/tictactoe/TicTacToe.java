@@ -26,9 +26,6 @@ public class TicTacToe {
 			board[row] = new Mark[3];
 			Arrays.fill(board[row], Mark.BLANK);
 		});
-//		for (int x = 0; x < board.length; x++) {
-//			board[x] = new Mark[3];
-//		}
 	}
 	
 	public Mark getMark(int row, int col) {
@@ -94,19 +91,15 @@ public class TicTacToe {
 	}
 
 	private boolean allSpacesTaken() {
-		for (int x = 0; x < board.length; x++) {
-			if (rowContainsBlanks(board[x])) {
-				return false;
-			}
+		if (Arrays.stream(board).anyMatch(row -> rowContainsBlanks(row))) {
+			return false;
 		}
 		return true;
 	}
 
 	private boolean rowContainsBlanks(Mark[] row) {
-		for (int y = 0; y < row.length; y++) {
-			if (row[y] == Mark.BLANK) {
-				return true;
-			}
+		if (Arrays.stream(row).anyMatch(cell -> cell == Mark.BLANK)) {
+			return true;
 		}
 		return false;
 	}
